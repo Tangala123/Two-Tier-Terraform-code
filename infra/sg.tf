@@ -1,16 +1,20 @@
 
+#############################
+# Web Security Group
+#############################
 resource "aws_security_group" "web" {
   name        = "web-sg"
   description = "Allow SSH, HTTP, and HTTPS inbound traffic"
   vpc_id      = aws_vpc.main.id
 
-  # SSH
+  # SSH (restrict in production)
   ingress {
     description = "Allow SSH"
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["0.0.0.0/0"] # RECOMMENDED: replace with your IP, e.g., ["203.0.113.10/32"]
+    # ipv6_cidr_blocks = ["::/0"] # optional IPv6; remove if not needed
   }
 
   # HTTP
@@ -20,6 +24,7 @@ resource "aws_security_group" "web" {
     to_port     = 80
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
+    # ipv6_cidr_blocks = ["::/0"] # optional
   }
 
   # HTTPS
@@ -29,28 +34,32 @@ resource "aws_security_group" "web" {
     to_port     = 443
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
+    # ipv6_cidr_blocks = ["::/0"] # optional
   }
 
-  # Outbound traffic (all)
+  # Egress: allow all outbound
   egress {
     from_port        = 0
     to_port          = 0
     protocol         = "-1"
     cidr_blocks      = ["0.0.0.0/0"]
-    #ipv    ipv6_cidr_blocks = ["::/0"]
+    # ipv6_cidr_blocks = ["::/0"] # optional; remove if not using IPv6
   }
 
   tags = {
     Name = "web_security_rules"
   }
+}
 
-##RDS sg
+#############################
+# RDS Security Group
+#############################
 resource "aws_security_group" "rds" {
   name        = "rds-sg"
   description = "Allow MySQL access from Web SG"
   vpc_id      = aws_vpc.main.id
 
-  # Allow MySQL from Web SG
+  # Allow MySQL only from the Web SG
   ingress {
     description     = "MySQL from Web SG"
     from_port       = 3306
@@ -59,13 +68,13 @@ resource "aws_security_group" "rds" {
     security_groups = [aws_security_group.web.id]
   }
 
-  # Outbound traffic (all)
+  # Egress: allow all outbound (for DNS/NTP, etc.)
   egress {
     from_port        = 0
     to_port          = 0
     protocol         = "-1"
     cidr_blocks      = ["0.0.0.0/0"]
-    #ipv6_cidr_blocks = ["::/0"]
+    #    # ipv6_cidr_blocks = ["::/0"] # optional
   }
 
   tags = {

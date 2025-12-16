@@ -9,6 +9,6 @@ resource "aws_instance" "main" {
   user_data = file("./scripts/httpd.sh")
   user_data_replace_on_change = true
   tags = {
-    Name = "terraform-training[count.index]"
+    Name = "WEBSERVER[count.index]"
   }
 }

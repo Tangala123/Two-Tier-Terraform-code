@@ -46,14 +46,6 @@ variable "instance_type" {
   default = "t3.micro"
 }
 
-variable "web_ingress_rules" {
-  type = map(object({
-    port        = number
-    protocol    = string
-    cidr_blocks = list(string)
-    description = string
-  }))
-}
 # Database
 variable "db_username" {
   type    = string

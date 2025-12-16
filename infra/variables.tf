@@ -21,13 +21,13 @@ variable "vpc_cidr" {
 }
 
 # ✅ Public subnets as a list
-variable "public_subnets" {
+variable "pub_cidrs" {
   type    = list(string)
   default = ["172.31.1.0/24", "172.31.2.0/24"]
 }
 
 # ✅ Private subnets as a list
-variable "private_subnets" {
+variable "pri_cidrs" {
   type    = list(string)
   default = ["172.31.11.0/24", "172.31.12.0/24"]
 }

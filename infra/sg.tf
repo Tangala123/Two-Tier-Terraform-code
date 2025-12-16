@@ -2,7 +2,7 @@
 resource "aws_security_group" "web" {
   name        = "web-sg"
   description = "Allow SSH, HTTP, and HTTPS inbound traffic"
-  vpc_id      = var.vpc_id
+  vpc_id      = aws_vpc.main.id
 
   # SSH
   ingress {
@@ -37,7 +37,7 @@ resource "aws_security_group" "web" {
     to_port          = 0
     protocol         = "-1"
     cidr_blocks      = ["0.0.0.0/0"]
-    ipv    ipv6_cidr_blocks = ["::/0"]
+    #ipv    ipv6_cidr_blocks = ["::/0"]
   }
 
   tags = {
@@ -48,7 +48,7 @@ resource "aws_security_group" "web" {
 resource "aws_security_group" "rds" {
   name        = "rds-sg"
   description = "Allow MySQL access from Web SG"
-  vpc_id      = var.vpc_id
+  vpc_id      = aws_vpc.main.id
 
   # Allow MySQL from Web SG
   ingress {
@@ -63,9 +63,9 @@ resource "aws_security_group" "rds" {
   egress {
     from_port        = 0
     to_port          = 0
-    protocol         = "-1    protocol         = "-1"
+    protocol         = "-1"
     cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
+    #ipv6_cidr_blocks = ["::/0"]
   }
 
   tags = {

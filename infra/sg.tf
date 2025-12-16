@@ -51,6 +51,7 @@ resource "aws_security_group" "web" {
   }
 }
 
+
 #############################
 # RDS Security Group
 #############################
@@ -74,10 +75,10 @@ resource "aws_security_group" "rds" {
     to_port          = 0
     protocol         = "-1"
     cidr_blocks      = ["0.0.0.0/0"]
-    #    # ipv6_cidr_blocks = ["::/0"] # optional
+    # ipv6_cidr_blocks = ["::/0"] # optional
   }
 
   tags = {
     Name = "rds_security_rules"
   }
-
+}

@@ -9,9 +9,8 @@ variable "project" {
   default = "myapp"
 }
 
-variable "env" {
-  type    = string
-  default = "dev"
+variable "subnet_count" {
+  default = 2
 }
 
 # VPC CIDR

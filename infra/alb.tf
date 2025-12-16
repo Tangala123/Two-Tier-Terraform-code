@@ -9,7 +9,7 @@ resource "aws_lb_target_group" "main" {
 
 resource "aws_lb" "my_alb" {
   name               = var.alb_name
-  internal           = false
+  internet-facing    = true
   load_balancer_type = "application"
   security_groups    = [aws_security_group.web.id]
   subnets            = aws_subnet.public.*.id[count.index]
@@ -27,7 +27,7 @@ resource "aws_lb_listener" "my_listener" {
 }
 # Target Group attachment
 resource "aws_lb_target_group_attachment" "main" {
-  count            = length(var.instance_ids)
+  count            = length(aws_instance.main.*.id)
   target_group_arn = aws_lb_target_group.main.arn
-  target_id        = var.instance_ids[count.index]
+  target_id        = aws_instance.main.*.id[count.index]
 }

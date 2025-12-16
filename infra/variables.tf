@@ -33,6 +33,25 @@ variable "pri_cidrs" {
 }
 
 # Compute
+variable "tg_name" {
+  type    = string
+  default = "myapp-tg"
+}
+
+variable "tg_port" {
+  type    = string
+  default = "80"
+}
+
+variable "tg_protocol" {
+  type    = string
+  default = "HTTP"
+}
+
+variable "alb_name" {
+  type    = string
+  default = "myapp-alb"
+}
 variable "key_name" {
   type    = string
   default = "Prasanna"

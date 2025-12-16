@@ -1,3 +1,11 @@
+
+name: Terraform Deploy
+
+on:
+  push:
+    branches:
+      - main
+
 jobs:
   terraform:
     runs-on: ubuntu-latest
@@ -5,11 +13,11 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_DEFAULT_REGION: ap-south-1
+      AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
 
     defaults:
       run:
-        working-directory: infra
+        working-directory: infra/
 
     steps:
       - name: Checkout Repository
@@ -26,9 +34,12 @@ jobs:
       - name: Terraform Format
         run: terraform fmt -check -recursive
 
+      - name: Terraform Validate
+        run: terraform validate
+
       - name: Terraform Plan
-        run: terraform plan
+        run: terraform plan -input=false
 
       - name: Terraform Apply
+        #if: github.ref == 'refs/heads/main'
         run: terraform apply -auto-approve
-        

@@ -1,11 +1,16 @@
 resource "aws_vpc" "main" {
   cidr_block       = var.vpc_cidr
   instance_tenancy = "default"
-  tags             = var.vpc_tags
+  tags = {
+    Name = "${var.project_name}-vpc"
+  }
 }
 # Internet gateway
 resource "aws_internet_gateway" "main" {
   vpc_id = aws_vpc.main.id
+  tags = {
+    Name = "${var.project_name}-igw"
+  }
 }
 # Create route table for public subnet
 resource "aws_route_table" "public" {
@@ -20,6 +25,9 @@ resource "aws_subnet" "public" {
   vpc_id            = aws_vpc.main.id
   availability_zone = local.az_names[count.index]
   cidr_block        = var.pub_cidrs[count.index]
+  tags = {
+    Name = "${var.project_name}-Pub[count.index]"
+  }
 }
 # associate public subnets with public route table
 resource "aws_route_table_association" "public" {
@@ -37,6 +45,9 @@ resource "aws_subnet" "private" {
   availability_zone = local.az_names[count.index]
   vpc_id            = aws_vpc.main.id
   cidr_block        = var.pri_cidrs[count.index]
+   tags = {
+    Name = "${var.project_name}-Pri[count.index]"
+  }
 }
 # associate public subnets with public route table
 resource "aws_route_table_association" "private" {

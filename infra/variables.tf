@@ -20,12 +20,6 @@ variable "vpc_cidr" {
   default = "172.31.0.0/16"
 }
 
-# ✅ Availability Zones as a list of strings
-variable "availability_zones" {
-  type    = list(string)
-  default = ["ap-southeast-2a", "ap-southeast-2b"]
-}
-
 # ✅ Public subnets as a list
 variable "public_subnets" {
   type    = list(string)
@@ -53,4 +47,28 @@ variable "db_username" {
 variable "db_password" {
   type    = string
   default = "Admin*0987654"
+}
+
+variable "mysql_engine_version" {
+  description = "MySQL engine version"
+  type        = string
+  default     = "8.0"
+}
+
+variable "db_name" {
+  description = "Initial database name"
+  type        = string
+  default     = "myappdb"
+}
+
+variable "rds_instance_class" {
+  description = "RDS instance class"
+  type        = string
+  default     = "db.t3.micro"
+}
+
+variable "rds_allocated_storage_gb" {
+  description = "RDS storage size in GB"
+  type        = number
+  default     = 20
 }

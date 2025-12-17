@@ -29,5 +29,5 @@ resource "aws_lb_listener" "my_listener" {
 resource "aws_lb_target_group_attachment" "main" {
   count            = length(aws_instance.main.*.id)
   target_group_arn = aws_lb_target_group.main.arn
-  target_id        = aws_instance.main[*].id
+  target_id        = aws_instance.main[count.index].id
 }

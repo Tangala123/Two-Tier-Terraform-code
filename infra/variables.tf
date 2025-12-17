@@ -64,6 +64,14 @@ variable "instance_type" {
   default = "t3.micro"
 }
 
+
+variable "public_ip" {
+  description = "Whether to associate a public IP with the instance"
+  type        = bool
+  default     = true
+}
+
+
 # Database
 variable "db_username" {
   type    = string

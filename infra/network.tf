@@ -5,7 +5,7 @@ resource "aws_vpc" "main" {
   instance_tenancy = "default"
 
   tags = {
-    Name = "${var.project_name}-vpc"
+    Name = "${var.project}-vpc"
   }
 }
 
@@ -14,7 +14,7 @@ resource "aws_internet_gateway" "main" {
   vpc_id = aws_vpc.main.id
 
   tags = {
-    Name = "${var.project_name}-igw"
+    Name = "${var.project}-igw"
   }
 }
 
@@ -30,7 +30,7 @@ resource "aws_route_table" "public" {
   }
 
   tags = {
-    Name = "${var.project_name}-pub-rt"
+    Name = "${var.project}-pub-rt"
   }
 }
 
@@ -43,7 +43,7 @@ resource "aws_subnet" "public" {
   map_public_ip_on_launch   = true
 
   tags = {
-    Name = "${var.project_name}-Pub${count.index}"
+    Name = "${var.project}-Pub${count.index}"
   }
 }
 
@@ -61,7 +61,7 @@ resource "aws_route_table" "private" {
   vpc_id = aws_vpc.main.id
 
   tags = {
-    Name = "${var.project_name}-private-rt"
+    Name = "${var.project}-private-rt"
   }
 }
 
@@ -74,7 +74,7 @@ resource "aws_subnet" "private" {
   map_public_ip_on_launch = false
 
   tags = {
-    Name = "${var.project_name}-Pri${count.index}"
+    Name = "${var.project}-Pri${count.index}"
   }
 }
 

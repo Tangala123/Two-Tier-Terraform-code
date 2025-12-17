@@ -83,11 +83,13 @@ variable "db_password" {
   default = "Admin*0987654"
 }
 
+
 variable "mysql_engine_version" {
-  description = "MySQL engine version"
   type        = string
-  default     = "8.0"
+  description = "RDS MySQL engine version (major.minor.patch)"
+  default     = "8.0.44"         # choose a supported version
 }
+
 
 variable "db_name" {
   description = "Initial database name"

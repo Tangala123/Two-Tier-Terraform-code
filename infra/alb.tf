@@ -9,7 +9,7 @@ resource "aws_lb_target_group" "main" {
 
 resource "aws_lb" "my_alb" {
   name               = var.alb_name
-  internet-facing    = true
+  internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.web.id]
   subnets            = aws_subnet.public[*].id
